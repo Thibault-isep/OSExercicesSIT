@@ -1,7 +1,7 @@
 #!/bin/sh
 # Script to print user information who currently login , current date & time
 clear
-echo "Hello $USER"$'\n'"Today is "
+echo "Hello $USER"'\n'"Today is "
 date
 echo "Number of user login : "
 who | wc -l

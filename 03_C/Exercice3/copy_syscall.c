@@ -9,21 +9,25 @@ int main(int argc, char *argv[])
     char buffer[1024];
     long int rcount, wcount;
 
-    src = open(argv[1], O_RDONLY);
-    if(src == NULL) 
-    {
+    if(src = open(argv[1], O_RDONLY) == -1) {
         perror("src");
-        fclose(src);
+        close(src);
         exit(1);
     }
-
-    dst = open(argv[2], O_WRONLY);
-    if(dst == NULL) {
+    
+    if(dst = open(argv[2], O_WRONLY) == -1) {
         perror("dst");
-        fclose(dst);
+        close(dst);
         exit(1);
     }
 
-    rcount = read(src, buffer, 1024);
-    wcount = write (dst, buffer, rcount);
+    while((rcount = read(src, buffer, 1024)) > 0) {
+        if((wcount = write(dst, buffer, rcount)) != rcount){
+            perror("error during writing");
+            exit(3);
+        }
+    }
+   
+    close(src);
+    close(dst);
 }
